@@ -1,0 +1,25 @@
+version: "3.5"
+
+services:
+  app:
+    build: "dc/app"
+    volumes:
+      - ".:/app"
+    working_dir: "/app"
+    ports:
+      - "4000:4000"
+    command: "/app/dc/app/init.sh"
+    depends_on:
+      - "kafka"
+  kafka:
+    image: "wurstmeister/kafka"
+    expose:
+      - "9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "kafka"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_CREATE_TOPICS: "elsa-issue:1:1"
+    depends_on:
+      - "zookeeper"
+  zookeeper:
+    image: "wurstmeister/zookeeper"

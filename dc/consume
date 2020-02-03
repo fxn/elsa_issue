@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker-compose exec kafka \
+  kafka-console-consumer.sh \
+    --bootstrap-server localhost:9092 \
+    --group dc/consumer \
+    --topic elsa-issue "$@"
